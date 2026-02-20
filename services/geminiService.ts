@@ -9,8 +9,17 @@ export class MurahoAIService {
   private nextStartTime = 0;
   private sources = new Set<AudioBufferSourceNode>();
 
-  constructor() {
-    this.client = new GoogleGenAI({ apiKey: process.env.API_KEY });
+   constructor() {
+    // In Vite, environment variables must be prefixed with VITE_
+    const apiKey = import.meta.env.VITE_API_KEY || process.env.API_KEY;
+    
+    if (!apiKey) {
+      console.error("API_KEY not found. Please set VITE_API_KEY in your .env file");
+      // Provide a dummy client that will show errors gracefully
+      this.client = new GoogleGenAI({ apiKey: 'dummy-key' });
+    } else {
+      this.client = new GoogleGenAI({ apiKey });
+    }
   }
 
   private getAudioContext() {

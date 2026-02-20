@@ -28,7 +28,19 @@ RUN rm -rf /usr/share/nginx/html/*
 # Copy built files
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Expose port
-EXPOSE 80
+# Create nginx config to listen on both 80 and 8080
+RUN echo 'server { \
+    listen 80; \
+    listen 8080; \
+    server_name _; \
+    root /usr/share/nginx/html; \
+    index index.html; \
+    location / { \
+        try_files $uri /index.html; \
+    } \
+}' > /etc/nginx/conf.d/default.conf
+
+# Expose both ports
+EXPOSE 80 8080
 
 CMD ["nginx", "-g", "daemon off;"]

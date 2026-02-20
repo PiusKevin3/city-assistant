@@ -1,0 +1,8 @@
+{
+  "name": "MurahoAI - Bujumbura Assistant",
+  "description": "A centralized digital concierge for Bujumbura, offering event discovery, service booking, and local insights using Gemini Interactions API.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
